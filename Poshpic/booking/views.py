@@ -33,18 +33,18 @@ class BookingApiView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     
-def get(self, request, pk):
-    try:
-        if pk is not None:
-            bookinguser = BookingPhotographer.objects.get(pk=pk)
-            serializer = BookingSerializer(bookinguser)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
-            booking_users = BookingPhotographer.objects.all()
-            serializer = BookingSerializer(booking_users, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-    except BookingPhotographer.DoesNotExist:
-        return Response({"detail": "Photographer not found"}, status=status.HTTP_404_NOT_FOUND)
+# def get(self, request, pk):
+#     try:
+#         if pk is not None:
+#             bookinguser = BookingPhotographer.objects.get(pk=pk)
+#             serializer = BookingSerializer(bookinguser)
+#             return Response(serializer.data, status=status.HTTP_200_OK)
+#         else:
+#             booking_users = BookingPhotographer.objects.all()
+#             serializer = BookingSerializer(booking_users, many=True)
+#             return Response(serializer.data, status=status.HTTP_200_OK)
+#     except BookingPhotographer.DoesNotExist:
+#         return Response({"detail": "Photographer not found"}, status=status.HTTP_404_NOT_FOUND)
 
  
 
