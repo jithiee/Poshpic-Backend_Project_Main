@@ -60,6 +60,7 @@ INSTALLED_APPS = [
 # ASGI_APPLICATION = 'chatapp.asgi.application'
 
 ASGI_APPLICATION = "Poshpic.asgi.application" #routing.py will handle the ASGI
+
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': "channels.layers.InMemoryChannelLayer"

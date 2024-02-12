@@ -30,6 +30,7 @@ class TextRoomConsumer(AsyncWebsocketConsumer):
     def create_message(self, message, sender, room_name):
         try:
             booking = BookingPhotographer.objects.get(id=int(room_name))
+            
             message_obj = Message.objects.create(
                 room_name=booking,
                 username=sender,
@@ -47,7 +48,7 @@ class TextRoomConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        text = text_data_json['message']  # Use 'message' instead of 'text'
+        text = text_data_json['message']  
         sender = text_data_json['username']
 
         await self.create_message(text, sender, self.room_name)

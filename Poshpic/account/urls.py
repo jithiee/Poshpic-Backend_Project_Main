@@ -13,7 +13,9 @@ urlpatterns = [
     path('resetpassword/<str:uidb64>/<str:token>/',views.ResetPasswordView.as_view()),
     path('userprofile/',views.UserProfileView.as_view()),
     path('userprofile/<int:id>/',views.UserProfileView.as_view()),
-    path('getuserid/<int:id>/',views.GetUserIdApivew.as_view()),
+    path('phtotgrapher/',views.PhtotgrapherApiview.as_view()),
+   
+   
   
   
 ]

@@ -52,6 +52,7 @@ class RegisterUserView(APIView):
                                     
                     
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    
  
 # Assuming your PhotographerProfile model has a ForeignKey field named 'user'
 class Verify_OTP(APIView):
@@ -82,6 +83,10 @@ class Verify_OTP(APIView):
                 return Response({'error': 'Account already verified'}, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({'error': 'Invalid data provided'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        
+        
+        
 
 # class LoginUserView(APIView):
 #     def post(self, request, *args, **kwargs):
@@ -157,7 +162,7 @@ class ForgotpasswordView(APIView):
                      
         
 class ResetPasswordView(APIView):
-        def put(self,request ,uidb64 ,token,*args, **kwargs):
+        def put(self,request ,uidb64,token,*args,**kwargs):
             try:
                 uid = urlsafe_base64_decode(uidb64).decode()
                 user = User.objects.get(pk=uid)
@@ -216,7 +221,26 @@ class GetUserIdApivew(APIView):
         user = User.objects.get(pk =id)
         serializer = Userserializer(user)
         return Response(serializer.data)
+    
+    
+    
+class PhtotgrapherApiview(APIView):
+    def get(self, request ):
+        user = User.objects.filter(photographerprofile__isnull = False)
+        print(user, 'ooooooooooooooooooooooo')
+        serilaizer = Userserializer(user , many = True)
+        return Response(serilaizer.data,status=status.HTTP_200_OK )
         
+        
+        
+    
+        
+            
+    
+
+
+    
+                 
     
     
 

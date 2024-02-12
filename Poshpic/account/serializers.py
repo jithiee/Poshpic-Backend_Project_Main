@@ -126,7 +126,7 @@ class Userserializer(serializers.ModelSerializer):
             photographer_instance.save()
 
         return instance
-           
+
            
         
             

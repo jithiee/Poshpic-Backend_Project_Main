@@ -37,6 +37,17 @@ class FollowApiView(APIView):
             return Response({"msg": "user not found"}, status=status.HTTP_404_NOT_FOUND)
         except Follow.DoesNotExist:
             return Response({"msg": "No followers found for the user"}, status=status.HTTP_404_NOT_FOUND)
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
        
         
         

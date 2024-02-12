@@ -12,13 +12,22 @@ from django.utils import timezone
 
 class Post_PhototgrapherView(APIView):
     permission_classes = [IsAuthenticated]
+    
+    # def get_queryset(self):
+       
+    #     return Post.objects.order_by('-created_at')
+
     def post(self , request , *args, **kwargs):   
         serializer = PostSerializer(data = request.data)
         user = request.user
-        if serializer.is_valid(raise_exception=True):
+        if serializer.is_valid():
             serializer.save(user = user , created_at=timezone.now())
             return Response({'msg':'post succussfully created'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors , status=status.HTTP_400_BAD_REQUEST )
+    
+    
+    
+    
     
 
     # def get(self, request, *args, pk=None, **kwargs):
@@ -33,6 +42,8 @@ class Post_PhototgrapherView(APIView):
     #     posts = Post.objects.all()
     #     serializer = PostSerializer(posts, many=True)
     #     return Response(serializer.data)    
+    
+    
     
     def get(self, request, format=None):
         posts = Post.objects.all()
@@ -81,18 +92,24 @@ class LikeApiView(APIView):
     permission_classes = [IsAuthenticated]
     def post(self, request, pk, *args, **kwargs):
         user = request.user
+        
+        # TODO 
+             
+        
         post = Post.objects.get(id=pk)
-
-        existinglike = Like.objects.filter(user=user, post=post)
+    
+        existinglike = Like.objects.filter(user=user, post_id=pk).first()
+        print(existinglike , 'oooooooooooooo')
 
         if existinglike:
             existinglike.delete()
             return Response({'msg': 'unliked'}, status=status.HTTP_200_OK)
         else:
             print(user ,'******' , user.id)
-            print(post , '****', post.id )
+            # print(post , '****', post.id )
             user = user.id
             post = post.id
+            
             serializer = LikeSerializer(data={"user":user,"post":post})
             if serializer.is_valid():
                 serializer.save()
@@ -103,12 +120,12 @@ class LikeApiView(APIView):
     def get(self, request , pk , *args, **kwargs):
         try:
             post = Post.objects.get(pk = pk)
-            likes = post.posts.all()
-            serializer = LikeSerializer(likes ,many =True)
-            return Response(serializer.data , status=status.HTTP_200_OK)
         except Post.DoesNotExist:
             return Response({'msg':'post not fount'}, status=status.HTTP_404_NOT_FOUND )
         
+        likes = post.posts.all()
+        serializer = LikeSerializer(likes ,many =True)
+        return Response(serializer.data , status=status.HTTP_200_OK)
     
 # class LikedUserApiView(APIView):
 #     def get(self, requset, pk , *args, **kwargs):
@@ -177,7 +194,8 @@ class CommentApiView(APIView):
     
     def get(self, request, pk=None, *args, **kwargs):
             try:
-                post = Post.objects.get(id=pk)
+                
+                post = Post.objects.get(id=pk)  
                 comments = Comment.objects.filter(post=post)
              
                 serializer = CommentSerializer(comments, many=True)
@@ -270,6 +288,7 @@ class WishlistApiView(APIView):
                 serializer.save()
                 return Response({'msg': 'wishlist'}, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
         
         
         
