@@ -7,32 +7,44 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('booking', '0006_alter_bookingphotographer_booking_date'),
-        ('chat', '0002_message_delete_chatmessage'),
+        ("booking", "0006_alter_bookingphotographer_booking_date"),
+        ("chat", "0002_message_delete_chatmessage"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Room',
+            name="Room",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255, unique=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255, unique=True)),
             ],
         ),
         migrations.RenameField(
-            model_name='message',
-            old_name='content',
-            new_name='message',
+            model_name="message",
+            old_name="content",
+            new_name="message",
         ),
         migrations.AddField(
-            model_name='message',
-            name='file',
-            field=models.FileField(blank=True, null=True, upload_to='uploads/'),
+            model_name="message",
+            name="file",
+            field=models.FileField(blank=True, null=True, upload_to="uploads/"),
         ),
         migrations.AddField(
-            model_name='message',
-            name='room_name',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='booking.bookingphotographer'),
+            model_name="message",
+            name="room_name",
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="booking.bookingphotographer",
+            ),
             preserve_default=False,
         ),
     ]

@@ -7,33 +7,43 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('post', '0023_alter_comment_created_at_alter_like_created_at_and_more'),
+        ("post", "0023_alter_comment_created_at_alter_like_created_at_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='comment',
-            name='created_at',
-            field=models.DateTimeField(default=datetime.datetime(2024, 1, 22, 14, 59, 56, 570836)),
+            model_name="comment",
+            name="created_at",
+            field=models.DateTimeField(
+                default=datetime.datetime(2024, 1, 22, 14, 59, 56, 570836)
+            ),
         ),
         migrations.AlterField(
-            model_name='like',
-            name='created_at',
-            field=models.DateTimeField(default=datetime.datetime(2024, 1, 22, 14, 59, 56, 570836)),
+            model_name="like",
+            name="created_at",
+            field=models.DateTimeField(
+                default=datetime.datetime(2024, 1, 22, 14, 59, 56, 570836)
+            ),
         ),
         migrations.AlterField(
-            model_name='post',
-            name='created_at',
-            field=models.DateTimeField(default=datetime.datetime(2024, 1, 22, 14, 59, 56, 570836)),
+            model_name="post",
+            name="created_at",
+            field=models.DateTimeField(
+                default=datetime.datetime(2024, 1, 22, 14, 59, 56, 570836)
+            ),
         ),
         migrations.AlterField(
-            model_name='posthistory',
-            name='deleted_at',
-            field=models.DateTimeField(default=datetime.datetime(2024, 1, 22, 14, 59, 56, 571833)),
+            model_name="posthistory",
+            name="deleted_at",
+            field=models.DateTimeField(
+                default=datetime.datetime(2024, 1, 22, 14, 59, 56, 571833)
+            ),
         ),
         migrations.AlterField(
-            model_name='wishlist',
-            name='create_at',
-            field=models.DateTimeField(default=datetime.datetime(2024, 1, 22, 14, 59, 56, 571833)),
+            model_name="wishlist",
+            name="create_at",
+            field=models.DateTimeField(
+                default=datetime.datetime(2024, 1, 22, 14, 59, 56, 571833)
+            ),
         ),
     ]

@@ -7,23 +7,25 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('post', '0007_remove_posthistory_comment_remove_posthistory_like_and_more'),
+        ("post", "0007_remove_posthistory_comment_remove_posthistory_like_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='post',
-            name='created_at',
-            field=models.DateTimeField(default=datetime.datetime(2024, 1, 16, 19, 53, 29, 116156)),
+            model_name="post",
+            name="created_at",
+            field=models.DateTimeField(
+                default=datetime.datetime(2024, 1, 16, 19, 53, 29, 116156)
+            ),
         ),
         migrations.AlterField(
-            model_name='posthistory',
-            name='deleted_at',
+            model_name="posthistory",
+            name="deleted_at",
             field=models.DateTimeField(auto_now_add=True),
         ),
         migrations.AlterField(
-            model_name='posthistory',
-            name='post',
+            model_name="posthistory",
+            name="post",
             field=models.CharField(blank=True, max_length=100, null=True),
         ),
     ]

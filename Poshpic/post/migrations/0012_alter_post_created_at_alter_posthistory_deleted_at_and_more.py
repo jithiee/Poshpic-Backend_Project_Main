@@ -8,23 +8,29 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('post', '0011_posthistory_description_posthistory_title_and_more'),
+        ("post", "0011_posthistory_description_posthistory_title_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='post',
-            name='created_at',
-            field=models.DateTimeField(default=datetime.datetime(2024, 1, 16, 23, 10, 33, 225796)),
+            model_name="post",
+            name="created_at",
+            field=models.DateTimeField(
+                default=datetime.datetime(2024, 1, 16, 23, 10, 33, 225796)
+            ),
         ),
         migrations.AlterField(
-            model_name='posthistory',
-            name='deleted_at',
-            field=models.DateTimeField(default=datetime.datetime(2024, 1, 16, 23, 10, 33, 226793)),
+            model_name="posthistory",
+            name="deleted_at",
+            field=models.DateTimeField(
+                default=datetime.datetime(2024, 1, 16, 23, 10, 33, 226793)
+            ),
         ),
         migrations.AlterField(
-            model_name='posthistory',
-            name='post',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='post.post'),
+            model_name="posthistory",
+            name="post",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="post.post"
+            ),
         ),
     ]

@@ -16,15 +16,52 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='BookingPhotographer',
+            name="BookingPhotographer",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('booking_date', models.DateTimeField(default=datetime.datetime(2024, 1, 22, 14, 59, 56, 600794))),
-                ('amount', models.DecimalField(decimal_places=2, max_digits=5)),
-                ('booking_status', models.CharField(choices=[('pending', 'Pending'), ('confirmed', 'Confirmed'), ('completed', 'Completed')], max_length=50)),
-                ('is_completed', models.BooleanField(default=False)),
-                ('photographer', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='booking_photographer', to=settings.AUTH_USER_MODEL)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='booking_user', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "booking_date",
+                    models.DateTimeField(
+                        default=datetime.datetime(2024, 1, 22, 14, 59, 56, 600794)
+                    ),
+                ),
+                ("amount", models.DecimalField(decimal_places=2, max_digits=5)),
+                (
+                    "booking_status",
+                    models.CharField(
+                        choices=[
+                            ("pending", "Pending"),
+                            ("confirmed", "Confirmed"),
+                            ("completed", "Completed"),
+                        ],
+                        max_length=50,
+                    ),
+                ),
+                ("is_completed", models.BooleanField(default=False)),
+                (
+                    "photographer",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="booking_photographer",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="booking_user",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

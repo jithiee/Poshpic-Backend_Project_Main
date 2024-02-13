@@ -2,27 +2,17 @@ from rest_framework import generics
 from .models import Message
 from .serializer import MessageSerializer
 
+
 class MessageList(generics.ListCreateAPIView):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
-    ordering = ('-timestamp',)
-
-
-
-
-
-
-
-
-
+    ordering = ("-timestamp",)
 
 
 # class MessageList(generics.ListCreateAPIView):
 #     queryset = Message.objects.all()
 #     serializer_class = MessageSerializer
 #     ordering = ('-timestamp',)
-    
-
 
 
 # class ListUser(APIView):
@@ -101,35 +91,8 @@ class MessageList(generics.ListCreateAPIView):
 #         rooms = Room.objects.filter(name__contains=request.user.username)
 #         serializer = RoomSerializer(rooms, many=True)
 #         return Response(serializer.data, status=status.HTTP_200_OK)
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-   
-   
-    
+
+
 # from .serializer import ChatMessageSerializer
 # from . models import ChatMessage
 # from rest_framework  import generics
@@ -139,15 +102,13 @@ class MessageList(generics.ListCreateAPIView):
 # # Create your views here.
 
 
-
-
 # class MyInbox(generics.ListAPIView):
 #     serializer_class = ChatMessageSerializer
-    
+
 #     def get_queryset(self):
 #         user_id = self.kwargs['user_id']
 #         message = ChatMessage.objects.filter(id__in = Subquery(
-            
+
 #             User.objects.filter(
 #                 Q(sender__reciver = user_id)|
 #                 Q(reciver__sender  = user_id)
@@ -160,54 +121,26 @@ class MessageList(generics.ListCreateAPIView):
 #                 )
 #             ).values_list("last_msg", flat=True ).order_by("-id")
 #           )
-                                             
+
 #         ).order_by("-id")
-        
-#         return message    
-    
+
+#         return message
+
 
 # class Getmessage(generics.ListAPIView):
 #     serializer_class = ChatMessage
-    
+
 #     def get_queryset(self):
 #         sender_id = self.kwargs['user_id']
 #         receiver_id = self.kwargs["user_id"]
-        
+
 #         message= ChatMessage.objects.filter(
 #             sender__in = [sender_id , receiver_id],
 #             receiver__in = [sender_id , receiver_id]
-            
+
 #         )
 #         return message
-    
+
 
 # class SenntMessage(generics.CreateAPIView):
-#     serializer_class = ChatMessageSerializer    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#     serializer_class = ChatMessageSerializer

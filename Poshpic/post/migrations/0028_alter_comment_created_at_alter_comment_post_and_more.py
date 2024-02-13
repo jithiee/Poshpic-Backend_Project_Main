@@ -9,49 +9,71 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('post', '0027_alter_comment_created_at_alter_like_created_at_and_more'),
+        ("post", "0027_alter_comment_created_at_alter_like_created_at_and_more"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='comment',
-            name='created_at',
-            field=models.DateTimeField(default=datetime.datetime(2024, 2, 6, 10, 19, 10, 675710)),
+            model_name="comment",
+            name="created_at",
+            field=models.DateTimeField(
+                default=datetime.datetime(2024, 2, 6, 10, 19, 10, 675710)
+            ),
         ),
         migrations.AlterField(
-            model_name='comment',
-            name='post',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='post.post'),
+            model_name="comment",
+            name="post",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="comments",
+                to="post.post",
+            ),
         ),
         migrations.AlterField(
-            model_name='like',
-            name='created_at',
-            field=models.DateTimeField(default=datetime.datetime(2024, 2, 6, 10, 19, 10, 674614)),
+            model_name="like",
+            name="created_at",
+            field=models.DateTimeField(
+                default=datetime.datetime(2024, 2, 6, 10, 19, 10, 674614)
+            ),
         ),
         migrations.AlterField(
-            model_name='like',
-            name='post',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='likes', to='post.post'),
+            model_name="like",
+            name="post",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="likes",
+                to="post.post",
+            ),
         ),
         migrations.AlterField(
-            model_name='like',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='user', to=settings.AUTH_USER_MODEL),
+            model_name="like",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="user",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AlterField(
-            model_name='post',
-            name='created_at',
-            field=models.DateTimeField(default=datetime.datetime(2024, 2, 6, 10, 19, 10, 674614)),
+            model_name="post",
+            name="created_at",
+            field=models.DateTimeField(
+                default=datetime.datetime(2024, 2, 6, 10, 19, 10, 674614)
+            ),
         ),
         migrations.AlterField(
-            model_name='posthistory',
-            name='deleted_at',
-            field=models.DateTimeField(default=datetime.datetime(2024, 2, 6, 10, 19, 10, 675710)),
+            model_name="posthistory",
+            name="deleted_at",
+            field=models.DateTimeField(
+                default=datetime.datetime(2024, 2, 6, 10, 19, 10, 675710)
+            ),
         ),
         migrations.AlterField(
-            model_name='wishlist',
-            name='create_at',
-            field=models.DateTimeField(default=datetime.datetime(2024, 2, 6, 10, 19, 10, 676816)),
+            model_name="wishlist",
+            name="create_at",
+            field=models.DateTimeField(
+                default=datetime.datetime(2024, 2, 6, 10, 19, 10, 676816)
+            ),
         ),
     ]

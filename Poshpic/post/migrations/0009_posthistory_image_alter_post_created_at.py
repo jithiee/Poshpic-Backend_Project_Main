@@ -7,18 +7,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('post', '0008_alter_post_created_at_alter_posthistory_deleted_at_and_more'),
+        ("post", "0008_alter_post_created_at_alter_posthistory_deleted_at_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='posthistory',
-            name='image',
-            field=models.ImageField(blank=True, null=True, upload_to='posts/'),
+            model_name="posthistory",
+            name="image",
+            field=models.ImageField(blank=True, null=True, upload_to="posts/"),
         ),
         migrations.AlterField(
-            model_name='post',
-            name='created_at',
-            field=models.DateTimeField(default=datetime.datetime(2024, 1, 16, 20, 2, 36, 298079)),
+            model_name="post",
+            name="created_at",
+            field=models.DateTimeField(
+                default=datetime.datetime(2024, 1, 16, 20, 2, 36, 298079)
+            ),
         ),
     ]

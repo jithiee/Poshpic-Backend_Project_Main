@@ -1,8 +1,6 @@
 from rest_framework import serializers
-from .models import Message , Room
+from .models import Message, Room
 from django.contrib.auth import get_user_model
-
-
 
 
 # class UserGetSerializer(serializers.ModelSerializer):
@@ -10,41 +8,23 @@ from django.contrib.auth import get_user_model
 #         model = get_user_model()
 #         fields = ["email", "username", "id"]
 #         extra_kwargs = {"id": {"read_only": True}}
-        
-        
+
 
 from rest_framework import serializers
 from .models import Message
 
+
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
-        fields = ('id', 'username', 'message', 'timestamp')
-        read_only_fields = ('id', 'timestamp')
+        fields = ("id", "username", "message", "timestamp")
+        read_only_fields = ("id", "timestamp")
 
-           
+
 # class RoomSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = Room
 #         fields = '__all__'
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 # class ChatMessageSerializer(serializers.ModelSerializer):

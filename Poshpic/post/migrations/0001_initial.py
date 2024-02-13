@@ -16,14 +16,34 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Post',
+            name="Post",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('image', models.ImageField(blank=True, null=True, upload_to='posts/')),
-                ('created_at', models.DateTimeField(verbose_name=datetime.datetime(2024, 1, 16, 11, 24, 29, 353007))),
-                ('title', models.CharField(blank=True, max_length=50, null=True)),
-                ('description', models.TextField(blank=True, null=True)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='post', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("image", models.ImageField(blank=True, null=True, upload_to="posts/")),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        verbose_name=datetime.datetime(2024, 1, 16, 11, 24, 29, 353007)
+                    ),
+                ),
+                ("title", models.CharField(blank=True, max_length=50, null=True)),
+                ("description", models.TextField(blank=True, null=True)),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="post",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

@@ -7,13 +7,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('follow', '0001_initial'),
+        ("follow", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='follow',
-            name='create_at',
-            field=models.DateTimeField(default=datetime.datetime(2024, 1, 18, 23, 26, 10, 698517)),
+            model_name="follow",
+            name="create_at",
+            field=models.DateTimeField(
+                default=datetime.datetime(2024, 1, 18, 23, 26, 10, 698517)
+            ),
         ),
     ]

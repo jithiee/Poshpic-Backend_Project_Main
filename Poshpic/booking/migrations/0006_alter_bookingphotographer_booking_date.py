@@ -7,13 +7,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('booking', '0005_alter_bookingphotographer_booking_date'),
+        ("booking", "0005_alter_bookingphotographer_booking_date"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='bookingphotographer',
-            name='booking_date',
-            field=models.DateTimeField(default=datetime.datetime(2024, 2, 10, 16, 15, 31, 829031)),
+            model_name="bookingphotographer",
+            name="booking_date",
+            field=models.DateTimeField(
+                default=datetime.datetime(2024, 2, 10, 16, 15, 31, 829031)
+            ),
         ),
     ]

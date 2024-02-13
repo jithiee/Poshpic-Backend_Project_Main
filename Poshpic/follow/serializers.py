@@ -1,13 +1,8 @@
 from rest_framework import serializers
-from . models import Follow
+from .models import Follow
 
 
 class FollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follow
-        fields = ['user','following_user','create_at']
-        
-        
-        
-
-    
+        fields = ["user", "following_user", "create_at"]
