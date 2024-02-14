@@ -25,7 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY =  config('SECRET_KEY', default='SECRET_KEY')
 
-# SECRET_KEY = "django-insecure-95j(7%&!q%c1d_*mt)kb7=ndhxdw3#dk3i*4_xb1y0^s@bos!t"
+SECRET_KEY = "django-insecure-95j(7%&!q%c1d_*mt)kb7=ndhxdw3#dk3i*4_xb1y0^s@bos!t"
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -101,16 +103,32 @@ TEMPLATES = [
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": config('NAME' ,default=''),
+#         "USER":config('USER' ,default='' ),
+#         "PASSWORD":config('PASSWORD' ,default='' ),
+#         "HOST": config('HOST' ,default='' ),
+#         "PORT": config('HOST' ,default='' ),
+#     }
+# }
+
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": config('NAME' ,default=''),
-        "USER":config('USER' ,default='' ),
-        "PASSWORD":config('PASSWORD' ,default='' ),
-        "HOST": config('HOST' ,default='' ),
-        "PORT": config('HOST' ,default='' ),
+        "NAME":'poshpic' ,
+        "USER":'postgres',
+        "PASSWORD":'1598',
+        "HOST":'localhost',
+        "PORT":'5432',
     }
 }
+
+
+
+
 
 
 # Password validation
@@ -156,12 +174,21 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # email /smtp congiguration ===================================================
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "app3691598@gmail.com"
-EMAIL_HOST_PASSWORD = "qjjdpeijbremafne"
+EMAIL_HOST_USER = 'app3691598@gmail.com'
+EMAIL_HOST_PASSWORD = 'qjjdpeijbremafne'
+
+
+
+# EMAIL_BACKEND = config('EMAIL_BACKEND',default='')
+# EMAIL_HOST = config('EMAIL_HOST ',default='')
+# EMAIL_PORT = config('EMAIL_PORT ',default='')
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = config('EMAIL_HOST_USER',default='')
+# EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD ',default='')
 
 
 import os
@@ -176,18 +203,13 @@ REST_FRAMEWORK = {
     ),
 }
 
-# SIMPLE_JWT = {
-#     'ACCESS_TOKEN_LIFETIME': timedelta(days=25),
-#     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
-#     'SLIDING_TOKEN_LIFETIME': timedelta(days=30),
-#     'SLIDING_TOKEN_REFRESH_LIFETIME_LATE_USER': timedelta(days=1),
-#     'SLIDING_TOKEN_LIFETIME_LATE_USER': timedelta(days=30),
-# }
+
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=3),
     "ROTATE_REFRESH_TOKENS": True,
 }
+
 
 
 CORS_ALLOWED_ORIGINS = [
