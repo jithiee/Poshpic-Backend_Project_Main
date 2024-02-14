@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY =  config('SECRET_KEY', default='SECRET_KEY')
 
-SECRET_KEY = "django-insecure-95j(7%&!q%c1d_*mt)kb7=ndhxdw3#dk3i*4_xb1y0^s@bos!t"
+
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -103,28 +103,17 @@ TEMPLATES = [
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": config('NAME' ,default=''),
-#         "USER":config('USER' ,default='' ),
-#         "PASSWORD":config('PASSWORD' ,default='' ),
-#         "HOST": config('HOST' ,default='' ),
-#         "PORT": config('HOST' ,default='' ),
-#     }
-# }
-
-
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME":'poshpic' ,
-        "USER":'postgres',
-        "PASSWORD":'1598',
-        "HOST":'localhost',
-        "PORT":'5432',
+        "NAME": config('NAME' ,default=''),
+        "USER":config('USER' ,default='' ),
+        "PASSWORD":config('PASSWORD' ,default='' ),
+        "HOST": config('HOST' ,default='' ),
+        "PORT": config('PORT' ,default='' ),
     }
 }
+
 
 
 
@@ -174,21 +163,15 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # email /smtp congiguration ===================================================
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
+
+
+
+EMAIL_BACKEND = config('EMAIL_BACKEND')
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT')
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'app3691598@gmail.com'
-EMAIL_HOST_PASSWORD = 'qjjdpeijbremafne'
-
-
-
-# EMAIL_BACKEND = config('EMAIL_BACKEND',default='')
-# EMAIL_HOST = config('EMAIL_HOST ',default='')
-# EMAIL_PORT = config('EMAIL_PORT ',default='')
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = config('EMAIL_HOST_USER',default='')
-# EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD ',default='')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 
 import os
@@ -199,7 +182,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        config("DEFAULT_AUTHENTICATION_CLASSES"),
     ),
 }
 
