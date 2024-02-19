@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "chat",
     "booking",
+    'adminpanel'
 ]
 
 
@@ -198,3 +199,21 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
+
+
+# swagger
+SWAGGER_SETTINGS = {
+    "TITLE": "Photographer management",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "SECURITY_DEFINITIONS": {
+        "Bearer": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey",
+        },
+    },
+}
+
+
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51OkNhNSA45B9o0jSfGqNo3AKAZPlNyfBgs5kdldeQbHHdVtyk2cd2pohXiYdAQUMzDNenzVkKLhmMpmnfb0uw9CI00KG1NuWay'
+STRIPE_SECRET_KEY = 'sk_test_51OkNhNSA45B9o0jSdnPkFkZMJ7J9BiCMr0yKVs77ovtEBGyBaSTMOMNMeGCFzfoplmnxTbirmyIo00vzOBnLXtvL00VdSRrOwv'

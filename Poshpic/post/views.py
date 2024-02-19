@@ -37,31 +37,26 @@ class Post_PhototgrapherView(APIView):
                     {"msg": "post successfully created"},
                     status=status.HTTP_201_CREATED
                 )
-                    
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+        
         except ValidationError as e:
             return Response({'msg': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
         except Exception as e:
             return Response({'msg': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
-
-
-    
     
     def get(self, request, format=None):
-        try :
+        try:
             posts = Post.objects.all()
             serializer = PostSerializer(posts, many=True)
             return Response(serializer.data)
-        except ObjectDoesNotExist  :
+        except ObjectDoesNotExist:
             return Response({'msg':'No Posts found'} ,status=status.HTTP_400_BAD_REQUEST  )
-        except Exception as e :
+        except Exception as e:
             return Response({'msg':str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR  )
     
    
-    
 
     def patch(self, request, pk, *args, **kwargs):
         try:
@@ -75,7 +70,7 @@ class Post_PhototgrapherView(APIView):
             return Response({"msg": "Post is updated"}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-
+    
     def delete(self, request, pk):
         try:
             post = Post.objects.get(pk=pk, user=request.user)
@@ -88,12 +83,11 @@ class Post_PhototgrapherView(APIView):
                 title=post.title,
                 image=post.image,
             )
-
+            
             post.delete()
             return Response({"msg": "post is deleted"}, status=status.HTTP_200_OK)
         except Post.DoesNotExist:
             return Response({"msg": "erorrr"}, status=status.HTTP_404_NOT_FOUND)
-        
         
 
 class LikeApiView(APIView):
@@ -112,8 +106,7 @@ class LikeApiView(APIView):
             existinglike.delete()
             return Response({"msg": "unliked"}, status=status.HTTP_200_OK)
         else:
-            print(user, "******", user.id)
-            # print(post , '****', post.id )
+       
             user = user.id
             post = post.id
 
@@ -123,7 +116,6 @@ class LikeApiView(APIView):
                 return Response({"msg": "liked"}, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    # A  post get likes
     def get(self, request, pk, *args, **kwargs):
         try:
             post = Post.objects.get(pk=pk)
@@ -133,22 +125,7 @@ class LikeApiView(APIView):
         likes = post.posts.all()
         serializer = LikeSerializer(likes, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-        
-
-    
-
-
-# class LikedUserApiView(APIView):
-#     def get(self, requset, pk , *args, **kwargs):
-#         try:
-#             user = User.objects.get(pk = pk)
-#             liked_post = Like.objects.filter(user=user)
-#             serializer = LikeSerializer( liked_post, many = True)
-#             return Response(serializer.data , status=status.HTTP_200_OK)
-#         except :
-#             return Response({'msg':'eorrorr'} , status=status.HTTP_400_BAD_REQUEST)
-
+     
 
 class PostHistoryListView(APIView):
     def get(self, request, pk=None, *args, **kwargs):
@@ -286,20 +263,35 @@ class RepostApiView(APIView):
             )
 
 
-class WishlistApiView(APIView):
-    permission_classes = [IsAuthenticated]
 
-    def post(self, request, pk, *args, **kwargs):
-        post_id = Post.objects.get(pk=pk)
-        user = request.user
 
-        existing_wishlist = Wishlist.objects.filter(post=post_id, user=user)
-        if existing_wishlist:
-            existing_wishlist.delete()
-            return Response({"msg": "Un_wishlist"}, status=status.HTTP_200_OK)
-        else:
-            serializer = WishlistSerializer(data={"post": post_id.id, "user": user.id})
-            if serializer.is_valid():
-                serializer.save()
-                return Response({"msg": "wishlist"}, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# class WishlistApiView(APIView):
+#     permission_classes = [IsAuthenticated]
+
+#     def post(self, request, pk, *args, **kwargs):
+#         post_id = Post.objects.get(pk=pk)
+#         user = request.user
+
+#         existing_wishlist = Wishlist.objects.filter(post=post_id, user=user)
+#         if existing_wishlist:
+#             existing_wishlist.delete()
+#             return Response({"msg": "Un_wishlist"}, status=status.HTTP_200_OK)
+#         else:
+#             serializer = WishlistSerializer(data={"post": post_id.id, "user": user.id})
+#             if serializer.is_valid():
+#                 serializer.save()
+#                 return Response({"msg": "wishlist"}, status=status.HTTP_201_CREATED)
+#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# class LikedUserApiView(APIView):
+#     def get(self, requset, pk , *args, **kwargs):
+#         try:
+#             user = User.objects.get(pk = pk)
+#             liked_post = Like.objects.filter(user=user)
+#             serializer = LikeSerializer( liked_post, many = True)
+#             return Response(serializer.data , status=status.HTTP_200_OK)
+#         except :
+#             return Response({'msg':'eorrorr'} , status=status.HTTP_400_BAD_REQUEST)

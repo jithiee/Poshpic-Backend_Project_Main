@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import BookingPhotographer
+import datetime
 
 
 class BookingSerializer(serializers.ModelSerializer):
@@ -13,3 +14,4 @@ class BookingSerializer(serializers.ModelSerializer):
             "booking_status",
             "is_completed",
         ]
+

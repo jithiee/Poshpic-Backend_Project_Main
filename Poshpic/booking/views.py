@@ -5,7 +5,7 @@ from account.models import User
 from .serializer import BookingSerializer
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from .models import BookingPhotographer
+from .models import BookingPhotographer 
 
 
 # Create your views here.
@@ -21,16 +21,78 @@ class BookingApiView(APIView):
             "user": request.user.id,
             **request.data,
             # "booking_date": request.data.get("booking_date"),
-            # "amount": request.data.get("amount")
+            # "amount": request.data.get("amount") 
         }
-
-        print(data, "ddddaaaaaaaatttteeeeeeeeeeeee")
 
         serializer = BookingSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+        
+    def get(self , request ):
+        try:
+            bookings = BookingPhotographer.objects.filter(user = request.user ).order_by("-booking_date") 
+            serializer = BookingSerializer(bookings , many = True)
+            return Response(serializer.data , status=status.HTTP_200_OK)
+        except BookingPhotographer.DoesNotExist:
+            return Response({'msg':'booking not found'} , status=status.HTTP_404_NOT_FOUND)
+        
+        
+        
+        
+        
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # def get(self, request, pk):
