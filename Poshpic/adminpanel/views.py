@@ -162,6 +162,8 @@ class PhotographerPayment(APIView):
             return Response({"error":"Not payment is found"},status=status.HTTP_404_NOT_FOUND)
 
     
+    
+    
 
 
 

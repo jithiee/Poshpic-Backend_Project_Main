@@ -6,12 +6,12 @@ from .serializers import (
     ForgotPasswordSerializer,
     Userserializer,
     VerifyAccountSerializer,
+    PhotogrpherProfileSerializer
 )
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
 from rest_framework.permissions import AllowAny
-# from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import User, Userprofile, PhotographerProfile
 from django.utils.http import urlsafe_base64_encode
@@ -23,9 +23,11 @@ from rest_framework.decorators import authentication_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from .email import sent_otp_vary_email
-# from rest_framework.generics import GenericAPIView
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+from rest_framework.generics import ListAPIView
+from django.db.models import Q
+from django.core.exceptions import ValidationError
 
 
 # this function used for jwt token generation
@@ -72,7 +74,6 @@ class RegisterUserView(APIView):
         )
 
 
-# Assuming your PhotographerProfile model has a ForeignKey field named 'user'
 class Verify_OTP(APIView):
     
     @swagger_auto_schema(
@@ -274,12 +275,29 @@ class PhtotgrapherApiview(APIView):
             return Response(serilaizer.data, status=status.HTTP_200_OK)
 
         except Exception as e:
-            return Response({"error": {str(e)}},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({"msg": {str(e)}},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
 
+class PhtotgrapherSearchAPIView(ListAPIView):
+    serializer_class = PhotogrpherProfileSerializer
 
+    def get_queryset(self):
+        username_query = self.request.query_params.get('username', None)
 
+        try:
+            if username_query:
+                queryset = PhotographerProfile.objects.filter(
+                    Q(user__username__icontains=username_query)
+                )
+            else:
+                queryset = PhotographerProfile.objects.all()
+            return queryset
 
+        except ValidationError as e:
+            return Response({'msg': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
+        except Exception as e:
+            return Response({'msg': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 

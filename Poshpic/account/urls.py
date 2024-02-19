@@ -11,6 +11,6 @@ urlpatterns = [
     path("forgotpassword/", views.ForgotpasswordView.as_view()),
     path("resetpassword/<str:uidb64>/<str:token>/", views.ResetPasswordView.as_view()),
     path("userprofile/", views.UserProfileView.as_view()),
-    # path("userprofile/<int:id>/", views.UserProfileView.as_view()),
     path("phtotgrapher/", views.PhtotgrapherApiview.as_view()),
+    path("phtotgraphersearch/",views.PhtotgrapherSearchAPIView.as_view(), name="photographer-list"),
 ]
