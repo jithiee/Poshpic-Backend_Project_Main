@@ -17,24 +17,11 @@ from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-
 SECRET_KEY =  config('SECRET_KEY', default='SECRET_KEY')
 
-
-
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
-
-# Application definition
 
 INSTALLED_APPS = [
     "daphne",
@@ -59,15 +46,13 @@ INSTALLED_APPS = [
     'adminpanel'
 ]
 
-
 # ASGI_APPLICATION = 'chatapp.asgi.application'
 
-ASGI_APPLICATION = "Poshpic.asgi.application"  # routing.py will handle the ASGI
+ASGI_APPLICATION = "Poshpic.asgi.application"  # routing.py will handle the ASGI    
 
 CHANNEL_LAYERS = {"default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}}
 
 AUTH_USER_MODEL = "account.User"
-
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -100,7 +85,6 @@ TEMPLATES = [
 
 # WSGI_APPLICATION = 'Poshpic.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -114,12 +98,6 @@ DATABASES = {
         "PORT": config('PORT' ,default='' ),
     }
 }
-
-
-
-
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -164,9 +142,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # email /smtp congiguration ===================================================
 
-
-
-
 EMAIL_BACKEND = config('EMAIL_BACKEND')
 EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_PORT = config('EMAIL_PORT')
@@ -200,7 +175,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
 
-
 # swagger
 SWAGGER_SETTINGS = {
     "TITLE": "Photographer management",
@@ -215,5 +189,8 @@ SWAGGER_SETTINGS = {
 }
 
 
-STRIPE_PUBLISHABLE_KEY = 'pk_test_51OkNhNSA45B9o0jSfGqNo3AKAZPlNyfBgs5kdldeQbHHdVtyk2cd2pohXiYdAQUMzDNenzVkKLhmMpmnfb0uw9CI00KG1NuWay'
-STRIPE_SECRET_KEY = 'sk_test_51OkNhNSA45B9o0jSdnPkFkZMJ7J9BiCMr0yKVs77ovtEBGyBaSTMOMNMeGCFzfoplmnxTbirmyIo00vzOBnLXtvL00VdSRrOwv'
+STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY', default='STRIPE_PUBLISHABLE_KEY')
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', default='STRIPE_SECRET_KEY')
+
+
+

@@ -30,15 +30,14 @@ urlpatterns = [
     path("", include("chat.urls")),
     path("", include("adminpanel.urls")),
     
-    
     path("ws/", include(routing.websocket_urlpatterns)),
-    
     
     re_path(
         r"^swagger(?P<format>\.json|\.yaml)$",
         schema_view.without_ui(cache_timeout=0),
         name="schema-json",
     ),
+    
     path(
         "swagger/",
         schema_view.with_ui("swagger", cache_timeout=0),

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import User, Userprofile, PhotographerProfile
 import re  # regular expression module
-from rest_framework_simplejwt.tokens import RefreshToken, TokenError
+
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -22,23 +22,23 @@ class RegisterSerializer(serializers.ModelSerializer):
             "otp",
         ]
 
-    # def validate_password(self,value):
-    #     if not re.search(r'\d',value):
-    #         raise serializers.ValidationError('Password must be one digit')
-    #     if not re.search(r'[A-Z]',value):
-    #         raise serializers.ValidationError('Password must be one uppercase letter')
-    #     if not re.search(r'[a-z]',value):
-    #         raise serializers.ValidationError('Password must be one lowercase letter')
-    #     if not re.search(r'[!@#$%^&*(),.?":{}|<>]',value):
-    #         raise serializers.ValidationError('Password must contain special character')
-    #     if len(value)< 8:
-    #         raise serializers.ValidationError('Password length must be 8 character')
-    #     return value
+    def validate_password(self,value):
+        if not re.search(r'\d',value):
+            raise serializers.ValidationError('Password must be one digit')
+        if not re.search(r'[A-Z]',value):
+            raise serializers.ValidationError('Password must be one uppercase letter')
+        if not re.search(r'[a-z]',value):
+            raise serializers.ValidationError('Password must be one lowercase letter')
+        if not re.search(r'[!@#$%^&*(),.?":{}|<>]',value):
+            raise serializers.ValidationError('Password must contain special character')
+        if len(value)< 8:
+            raise serializers.ValidationError('Password length must be 8 character')
+        return value
 
-    # def validate(self, attrs):
-    #     if attrs['password'] != attrs ['confirm_password']:
-    #         raise serializers.ValidationError({'msg':'Invalid password , passwords  are not same '})
-    #     return attrs
+    def validate(self, attrs):
+        if attrs['password'] != attrs ['confirm_password']:
+            raise serializers.ValidationError({'msg':'Invalid password , passwords  are not same '})
+        return attrs
 
     def validate(self, data):
         password = data.get("password")

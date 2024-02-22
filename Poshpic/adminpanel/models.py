@@ -17,4 +17,4 @@ class Payment(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=PENDING)
 
     def __str__(self):
-        return f"Payment for {self.Photogarpher.email} - {self.month}/{self.year}"
+        return f" {self.Photogarpher.email} took a subscription on  {self.month}/{self.year}"

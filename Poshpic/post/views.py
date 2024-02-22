@@ -52,9 +52,9 @@ class Post_PhototgrapherView(APIView):
             serializer = PostSerializer(posts, many=True)
             return Response(serializer.data)
         except ObjectDoesNotExist:
-            return Response({'msg':'No Posts found'} ,status=status.HTTP_400_BAD_REQUEST  )
+            return Response({'msg':'No Posts found'} ,status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-            return Response({'msg':str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR  )
+            return Response({'msg':str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
    
 

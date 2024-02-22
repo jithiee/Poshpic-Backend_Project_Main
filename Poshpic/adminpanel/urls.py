@@ -18,6 +18,6 @@ urlpatterns = [
     path("payment/", AdminPayment.as_view(), name="payment"),
     path("success/", PaymentSuccessView.as_view(), name="success"),
     
-    
-    
 ]
+    
+    

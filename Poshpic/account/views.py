@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework.views import APIView
 from .serializers import (
     RegisterSerializer,
@@ -19,7 +18,6 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from rest_framework.decorators import authentication_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from .email import sent_otp_vary_email
@@ -44,10 +42,10 @@ class RegisterUserView(APIView):
     permissions_classes = [AllowAny]
     
     @swagger_auto_schema(
-    tags=["User Authentication"],
-    operation_description="Registeration",
-    responses={200: RegisterSerializer, 400: "bad request", 500: "errors"},
-    request_body=RegisterSerializer,  
+        tags=["User Authentication"],
+        operation_description="Registeration",
+        responses={200: RegisterSerializer, 400: "bad request", 500: "errors"},
+        request_body=RegisterSerializer,  
     )
     
     def post(self, request, *args, **kwargs):
@@ -57,30 +55,21 @@ class RegisterUserView(APIView):
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 sent_otp_vary_email(serializer.data["email"])
-                return Response(
-                    {"message": "register successfully, check email "},
-                    status=status.HTTP_201_CREATED,
-                )
+                return Response({"message": "register successfully, check email "},status=status.HTTP_201_CREATED)
 
         except Exception as e:
-            return Response(
-                {"error": f"An error occurred: {str(e)}"},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            )
+            return Response({"error": f"An error occurred: {str(e)}"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        return Response(
-            {"error": "Invalid data provided"},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
+        return Response({"error": "Invalid data provided"},status=status.HTTP_400_BAD_REQUEST)
 
 
 class Verify_OTP(APIView):
     
     @swagger_auto_schema(
-    tags=["User Authentication"],
-    operation_description="otp varification",
-    responses={200: VerifyAccountSerializer, 400: "bad request", 500: "errors"},
-    request_body=VerifyAccountSerializer,  
+        tags=["User Authentication"],
+        operation_description="otp varification",
+        responses={200: VerifyAccountSerializer, 400: "bad request", 500: "errors"},
+        request_body=VerifyAccountSerializer,  
     )
     
     def post(self, request):
@@ -118,10 +107,10 @@ class Verify_OTP(APIView):
 class LoginUserView(APIView):
     
     @swagger_auto_schema(
-    tags=["User Authentication"],
-    operation_description="login",
-    responses={200: LoginSerializer, 400: "bad request", 500: "errors"},
-    request_body=LoginSerializer,  
+        tags=["User Authentication"],
+        operation_description="login",
+        responses={200: LoginSerializer, 400: "bad request", 500: "errors"},
+        request_body=LoginSerializer,  
     )
     
     def post(self, request, *args, **kwargs):
@@ -152,10 +141,10 @@ class LoginUserView(APIView):
 class ForgotpasswordView(APIView):
     
     @swagger_auto_schema(
-    tags=["User Authentication"],
-    operation_description="Forgotpassword",
-    responses={200: LoginSerializer, 400: "bad request", 500: "errors"},
-    request_body=LoginSerializer,  
+        tags=["User Authentication"],
+        operation_description="Forgotpassword",
+        responses={200: LoginSerializer, 400: "bad request", 500: "errors"},
+        request_body=LoginSerializer,  
     )
     
     def post(self, request, *args, **kwargs):
@@ -167,6 +156,7 @@ class ForgotpasswordView(APIView):
             
             try:
                 user = User.objects.get(email=email)    
+       
                 uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
                 token = default_token_generator.make_token(user)
 
@@ -187,10 +177,10 @@ class ForgotpasswordView(APIView):
 class ResetPasswordView(APIView):
     
     @swagger_auto_schema(
-    tags=["User Authentication"],
-    operation_description="ResetPassword",
-    responses={200: LoginSerializer, 400: "bad request", 500: "errors"},
-    request_body=LoginSerializer,  
+        tags=["User Authentication"],
+        operation_description="ResetPassword",
+        responses={200: LoginSerializer, 400: "bad request", 500: "errors"},
+        request_body=LoginSerializer,  
     )
     
     def put(self, request, uidb64, token, *args, **kwargs):
@@ -220,12 +210,11 @@ class UserProfileView(APIView):
     permission_classes = [IsAuthenticated]
     
     @swagger_auto_schema(
-    tags=["Profile"],
-    operation_description="user profile",
-    responses={200: Userserializer, 400: "bad request", 500: "errors"},
-   
+        tags=["Profile"],
+        operation_description="user profile",
+        responses={200: Userserializer, 400: "bad request", 500: "errors"},
     )
-    
+   
     def get(self, request, *args, **kwargs):
         try:
             user = self.request.user
@@ -237,10 +226,10 @@ class UserProfileView(APIView):
             
     
     @swagger_auto_schema(
-    tags=["Profile"],
-    operation_description="userprofile update",
-    responses={200: Userserializer, 400: "bad request", 500: "errors"},
-    request_body=Userserializer,  
+        tags=["Profile"],
+        operation_description="userprofile update",
+        responses={200: Userserializer, 400: "bad request", 500: "errors"},
+        request_body=Userserializer,  
     )
     
     def patch(self, request, *args, **kwargs):
@@ -262,9 +251,9 @@ class UserProfileView(APIView):
 class PhtotgrapherApiview(APIView):
     
     @swagger_auto_schema(
-    tags=["Profile"],
-    operation_description="photographer profile",
-    responses={200: Userserializer, 400: "bad request", 500: "errors"},
+        tags=["Profile"],
+        operation_description="photographer profile",
+        responses={200: Userserializer, 400: "bad request", 500: "errors"},
     
     )
     

@@ -102,7 +102,7 @@ class AdminPayment(APIView):
         )
 
         customer = stripe.Customer.create(
-            email=request.user.email, name=request.user.username
+            email=request.user.email , name=request.user.username
         )
 
         try:               
@@ -160,6 +160,7 @@ class PhotographerPayment(APIView):
             return Response(serializer.data)
         except Payment.DoesNotExist:
             return Response({"error":"Not payment is found"},status=status.HTTP_404_NOT_FOUND)
+        
 
     
     
