@@ -28,6 +28,7 @@ from django.db.models import Q
 from django.core.exceptions import ValidationError
 
 
+
 # this function used for jwt token generation
 def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
@@ -63,7 +64,8 @@ class RegisterUserView(APIView):
         return Response({"error": "Invalid data provided"},status=status.HTTP_400_BAD_REQUEST)
 
 
-class Verify_OTP(APIView):
+class Verify_OTP(APIView):  
+    permission_classes = [AllowAny]
     
     @swagger_auto_schema(
         tags=["User Authentication"],
@@ -106,6 +108,7 @@ class Verify_OTP(APIView):
 
 class LoginUserView(APIView):
     
+    
     @swagger_auto_schema(
         tags=["User Authentication"],
         operation_description="login",
@@ -139,7 +142,7 @@ class LoginUserView(APIView):
 
 
 class ForgotpasswordView(APIView):
-    
+    permission_classes = [IsAuthenticated]
     @swagger_auto_schema(
         tags=["User Authentication"],
         operation_description="Forgotpassword",
@@ -175,6 +178,7 @@ class ForgotpasswordView(APIView):
 
 
 class ResetPasswordView(APIView):
+    permission_classes = [IsAuthenticated]
     
     @swagger_auto_schema(
         tags=["User Authentication"],
@@ -204,6 +208,7 @@ class ResetPasswordView(APIView):
                 return Response( {"new_password": "This field is required."},status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({"detail": "Invalid reset link"}, status=status.HTTP_400_BAD_REQUEST)
+        
 
 # @authentication_classes([JWTAuthentication])  #its declire globaliyin setting.py  REST_FRAMEWORK
 class UserProfileView(APIView):
@@ -249,6 +254,7 @@ class UserProfileView(APIView):
 
 
 class PhtotgrapherApiview(APIView):
+    permission_classes=[IsAuthenticated]
     
     @swagger_auto_schema(
         tags=["Profile"],
@@ -268,6 +274,8 @@ class PhtotgrapherApiview(APIView):
         
 
 class PhtotgrapherSearchAPIView(ListAPIView):
+    permission_classes=[IsAuthenticated]
+    
     serializer_class = PhotogrpherProfileSerializer
 
     def get_queryset(self):

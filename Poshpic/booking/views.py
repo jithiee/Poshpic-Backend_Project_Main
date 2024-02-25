@@ -6,6 +6,7 @@ from .serializer import BookingSerializer
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from .models import BookingPhotographer 
+from datetime import datetime
 
 
 # Create your views here.
@@ -23,13 +24,24 @@ class BookingApiView(APIView):
             # "booking_date": request.data.get("booking_date"),
             # "amount": request.data.get("amount") 
         }
+        
+        booking_date_str = data.get("booking_date")
+        
+        if booking_date_str:
+            try:
+                booking_date = datetime.strptime(booking_date_str, '%Y-%m-%dT%H:%M:%S.%fZ')
+            except ValueError:
+                return Response({'msg': 'Invalid booking date format'}, status=status.HTTP_400_BAD_REQUEST)
+
+            if booking_date <= datetime.now():
+                return Response({'msg': 'Booking date must be a future date'}, status=status.HTTP_400_BAD_REQUEST)
 
         serializer = BookingSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
         
     def get(self , request ):
         try:

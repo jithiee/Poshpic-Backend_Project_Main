@@ -12,6 +12,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
+        
             "username",
             "email",
             "is_photographer",
@@ -22,18 +23,18 @@ class RegisterSerializer(serializers.ModelSerializer):
             "otp",
         ]
 
-    def validate_password(self,value):
-        if not re.search(r'\d',value):
-            raise serializers.ValidationError('Password must be one digit')
-        if not re.search(r'[A-Z]',value):
-            raise serializers.ValidationError('Password must be one uppercase letter')
-        if not re.search(r'[a-z]',value):
-            raise serializers.ValidationError('Password must be one lowercase letter')
-        if not re.search(r'[!@#$%^&*(),.?":{}|<>]',value):
-            raise serializers.ValidationError('Password must contain special character')
-        if len(value)< 8:
-            raise serializers.ValidationError('Password length must be 8 character')
-        return value
+    # def validate_password(self,value):
+    #     if not re.search(r'\d',value):
+    #         raise serializers.ValidationError('Password must be one digit')
+    #     if not re.search(r'[A-Z]',value):
+    #         raise serializers.ValidationError('Password must be one uppercase letter')
+    #     if not re.search(r'[a-z]',value):
+    #         raise serializers.ValidationError('Password must be one lowercase letter')
+    #     if not re.search(r'[!@#$%^&*(),.?":{}|<>]',value):
+    #         raise serializers.ValidationError('Password must contain special character')
+    #     if len(value)< 8:
+    #         raise serializers.ValidationError('Password length must be 8 character')
+    #     return value
 
     def validate(self, attrs):
         if attrs['password'] != attrs ['confirm_password']:
@@ -44,9 +45,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         password = data.get("password")
         confirm_password = data.get("confirm_password")
         if password != confirm_password:
-            raise serializers.ValidationError(
-                "Invalid password , passwords  are not same"
-            )
+            raise serializers.ValidationError("Invalid password , passwords  are not same")
         return data
 
     def create(self, validated_data):
@@ -85,6 +84,7 @@ class PhotogrpherProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = PhotographerProfile
         fields = [
+            "id",
             "specialty",
             "experience",
             "city",
@@ -93,6 +93,7 @@ class PhotogrpherProfileSerializer(serializers.ModelSerializer):
             "address",
             "phone",
             "profile_image",
+            "amount",
         ]
 
 
@@ -144,3 +145,4 @@ class Userserializer(serializers.ModelSerializer):
             photographer_instance.save()
 
         return instance
+    

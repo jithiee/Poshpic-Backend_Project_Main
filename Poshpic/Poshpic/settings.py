@@ -161,6 +161,9 @@ REST_FRAMEWORK = {
         config("DEFAULT_AUTHENTICATION_CLASSES"),
     ),
 }
+    
+
+
 
 
 SIMPLE_JWT = {

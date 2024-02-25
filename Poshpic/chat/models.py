@@ -16,7 +16,7 @@ class Message(models.Model):
     class Meta:
         db_table = "chat_message"
         ordering = ("timestamp",)
-
+    
 
 # from account.models import User , Userprofile
 # from datetime import datetime

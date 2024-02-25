@@ -20,6 +20,7 @@ from django.core.exceptions  import (
     ObjectDoesNotExist , 
     ValidationError,
 )
+from account.models import User
 
 
 class Post_PhototgrapherView(APIView):
@@ -48,13 +49,13 @@ class Post_PhototgrapherView(APIView):
     
     def get(self, request, format=None):
         try:
-            posts = Post.objects.all()
+            posts = Post.objects.all().order_by('-created_at')
             serializer = PostSerializer(posts, many=True)
             return Response(serializer.data)
         except ObjectDoesNotExist:
             return Response({'msg':'No Posts found'} ,status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-            return Response({'msg':str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+           return Response({'msg':str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
    
 
@@ -83,11 +84,25 @@ class Post_PhototgrapherView(APIView):
                 title=post.title,
                 image=post.image,
             )
-            
+                
             post.delete()
             return Response({"msg": "post is deleted"}, status=status.HTTP_200_OK)
         except Post.DoesNotExist:
             return Response({"msg": "erorrr"}, status=status.HTTP_404_NOT_FOUND)
+        
+class Photographer_postApiview(APIView):
+    def get(self, request):
+        user = request.user
+        try:
+            posts = Post.objects.filter(user=user).prefetch_related('likes', 'comments').order_by('-created_at')
+            if not posts.exists():
+                return Response({'msg': 'No posts found for the user'}, status=status.HTTP_404_NOT_FOUND)
+            
+            serializer = PostSerializer(posts, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'msg': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
         
 
 class LikeApiView(APIView):
@@ -129,9 +144,10 @@ class LikeApiView(APIView):
 
 class PostHistoryListView(APIView):
     def get(self, request, pk=None, *args, **kwargs):
+        user = request.user
         if pk is not None:
             try:
-                posthistory = PostHistory.objects.get(id=pk)
+                posthistory = PostHistory.objects.get(id=pk , user= user)
                 serializer = PostHistorySerializer(posthistory)
                 return Response(serializer.data)
             except PostHistory.DoesNotExist:
@@ -142,15 +158,27 @@ class PostHistoryListView(APIView):
         serializer = PostHistorySerializer(posthistory, many=True)
         return Response(serializer.data)
 
+    # def delete(self, request, pk):
+    #     try:
+    #         post = PostHistory.objects.get(pk=pk, user=request.user)
+    #     except PostHistory.DoesNotExist:
+    #         return Response({'msg':"psot historry don't exixt"} , status=status.HTTP_400_BAD_REQUEST )
+    #     try:
+    #         post.delete()
+    #         return Response({"msg": "post history deleted"}, status=status.HTTP_200_OK)
+    #     except PostHistory.DoesNotExist:
+    #         return Response(
+    #             {"msg": "post history not found"}, status=status.HTTP_400_BAD_REQUEST
+    #         )
+            
     def delete(self, request, pk):
         try:
             post = PostHistory.objects.get(pk=pk, user=request.user)
             post.delete()
-            return Response({"msg": "post history deleted"}, status=status.HTTP_200_OK)
+            return Response({"msg": "Post history deleted"}, status=status.HTTP_200_OK)
         except PostHistory.DoesNotExist:
-            return Response(
-                {"msg": "post history not found"}, status=status.HTTP_400_BAD_REQUEST
-            )
+            return Response({"msg": "Post history not found or you don't have permission"}, status=status.HTTP_404_NOT_FOUND)       
+
 
     def patch(self, request, pk, *args, **kwargs):
         try:
@@ -189,7 +217,7 @@ class CommentApiView(APIView):
         try:
 
             post = Post.objects.get(id=pk)
-            comments = Comment.objects.filter(post=post)
+            comments = Comment.objects.filter(post=post).order_by('-created_at')
 
             serializer = CommentSerializer(comments, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -209,18 +237,7 @@ class CommentApiView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        # def delete(self, request, pk, format=None):
-        # comment = get_object_or_404(Comment, pk=pk)
-        # if request.user != comment.user:
-        #     return Response(
-        #         {"error": "You do not have permission to delete this comment."},
-        #         status=status.HTTP_403_FORBIDDEN,
-        #     )
-        # comment.delete()
-        # return Response(
-        #     {"message": "Comment deleted successfully."},
-        #     status=status.HTTP_204_NO_CONTENT,
-        # )
+      
 
     def delete(self, request, pk):
 
@@ -261,9 +278,57 @@ class RepostApiView(APIView):
             return Response(
                 {"msg": "post histry not found"}, status=status.HTTP_404_NOT_FOUND
             )
+            
+            
+            
+
+            
+                    
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  # def delete(self, request, pk, format=None):
+        # comment = get_object_or_404(Comment, pk=pk)
+        # if request.user != comment.user:
+        #     return Response(
+        #         {"error": "You do not have permission to delete this comment."},
+        #         status=status.HTTP_403_FORBIDDEN,
+        #     )
+        # comment.delete()
+        # return Response(
+        #     {"message": "Comment deleted successfully."},
+        #     status=status.HTTP_204_NO_CONTENT,
+        # )
 
 
 

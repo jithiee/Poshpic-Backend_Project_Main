@@ -42,7 +42,7 @@ class PhotographerProfile(models.Model):
     SPECIALTY_CHOICES = (
         ("portrait", "Portrait Photography"),
         ("landscape", "Landscape Photography"),
-        ("wedding", "Wedding Photography"),
+        ("wedding ", "Wedding Photography"),
         ("wildlife", "Wildlife Photography"),
         ("fashion", "Fashion Photography"),
         ("sports", "Sports Photography"),
@@ -64,6 +64,8 @@ class PhotographerProfile(models.Model):
     status = models.BooleanField(default=False)
     address = models.TextField(null=True, blank=True)
     phone = models.IntegerField(blank=True, null=True)
+    amount = models.DecimalField(max_digits=6, decimal_places=2 , null=True , blank=True)
+ 
     profile_image = models.ImageField(
         upload_to=None,
         height_field=None,
