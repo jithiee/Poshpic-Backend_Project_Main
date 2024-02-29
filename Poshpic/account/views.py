@@ -106,8 +106,8 @@ class Verify_OTP(APIView):
             return Response({"error": "Invalid data provided"}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class LoginUserView(APIView):
     
+class LoginUserView(APIView):
     
     @swagger_auto_schema(
         tags=["User Authentication"],
@@ -239,7 +239,7 @@ class UserProfileView(APIView):
     
     def patch(self, request, *args, **kwargs):
         try:
-            userupdate = request.user
+            userupdate = request.user 
             serializer = Userserializer(userupdate, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()

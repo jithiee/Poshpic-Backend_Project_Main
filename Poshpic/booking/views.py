@@ -9,27 +9,27 @@ from .models import BookingPhotographer
 from datetime import datetime
 
 
-# Create your views here.
-
-
 class BookingApiView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, pk, *args, **kwargs):
         photographer = User.objects.get(id=pk)
         data = {
-            "photographer": photographer.id,
-            "user": request.user.id,
-            **request.data,
-            # "booking_date": request.data.get("booking_date"),
-            # "amount": request.data.get("amount") 
+          "photographer": photographer.id,
+           "user": request.user.id,
+             **(request.data if isinstance(request.data, dict) else {}),  # str to dict
+              # "booking_date": request.data.get("booking_date"),
+                # "amount": request.data.get("amount") 
         }
         
         booking_date_str = data.get("booking_date")
+        print(booking_date_str,'22222')
         
         if booking_date_str:
             try:
-                booking_date = datetime.strptime(booking_date_str, '%Y-%m-%dT%H:%M:%S.%fZ')
+        
+                booking_date = datetime.strptime(booking_date_str, '%Y-%m-%dT%H:%M')
+
             except ValueError:
                 return Response({'msg': 'Invalid booking date format'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -39,9 +39,11 @@ class BookingApiView(APIView):
         serializer = BookingSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
+            print(serializer.data,'555555')
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST
+    )
+    
         
     def get(self , request ):
         try:

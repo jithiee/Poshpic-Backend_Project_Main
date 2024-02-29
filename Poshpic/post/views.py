@@ -21,7 +21,7 @@ from django.core.exceptions  import (
     ValidationError,
 )
 from account.models import User
-
+from .pagination import PostLimitOffsetPagination
 
 class Post_PhototgrapherView(APIView):
     permission_classes = [IsAuthenticated]
@@ -56,9 +56,22 @@ class Post_PhototgrapherView(APIView):
             return Response({'msg':'No Posts found'} ,status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
            return Response({'msg':str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+       
+    # pagination_class = PostLimitOffsetPagination 
+    # def get(self, request, format=None):
+        
+    #     try:
+    #         posts = Post.objects.all().order_by('-created_at')
+    #         paginator = self.pagination_class()
+    #         result_page = paginator.paginate_queryset(posts, request)
+    #         serializer = PostSerializer(result_page, many=True)
+    #         return paginator.get_paginated_response(serializer.data)
+    #     except ObjectDoesNotExist:
+    #         return Response({'msg':'No Posts found'} ,status=status.HTTP_400_BAD_REQUEST)
+    #     except Exception as e:
+    #        return Response({'msg':str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)   
     
    
-
     def patch(self, request, pk, *args, **kwargs):
         try:
             post = Post.objects.get(pk=pk, user=request.user)
@@ -217,6 +230,7 @@ class CommentApiView(APIView):
         try:
 
             post = Post.objects.get(id=pk)
+          
             comments = Comment.objects.filter(post=post).order_by('-created_at')
 
             serializer = CommentSerializer(comments, many=True)

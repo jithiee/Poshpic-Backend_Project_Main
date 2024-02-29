@@ -69,11 +69,9 @@ class BookingDetails(APIView):
             return Response({"detail": "Booking not found"}, status=status.HTTP_404_NOT_FOUND)
         serializer = BookingSerializer(booking)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-
+    
+    
 stripe.api_key = settings.STRIPE_SECRET_KEY
-
-
 
 class AdminPayment(APIView):
     permission_classes = [IsAuthenticated]
@@ -161,6 +159,7 @@ class PhotographerPayment(APIView):
         except Payment.DoesNotExist:
             return Response({"error":"Not payment is found"},status=status.HTTP_404_NOT_FOUND)
         
+
 
     
     

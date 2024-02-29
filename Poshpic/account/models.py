@@ -29,7 +29,7 @@ class Userprofile(models.Model):
     country = models.CharField(max_length=50, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
     profile_image = models.ImageField(
-        upload_to=None,
+        upload_to="profileimage/",
         height_field=None,
         width_field=None,
         max_length=None,

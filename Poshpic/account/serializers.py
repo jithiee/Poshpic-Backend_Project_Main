@@ -79,22 +79,27 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = Userprofile
         fields = ["city", "phone", "country", "address", "profile_image"]
 
+  
 
+    
 class PhotogrpherProfileSerializer(serializers.ModelSerializer):
+    user_id = serializers.IntegerField(source='user.id', read_only=True)
+
     class Meta:
         model = PhotographerProfile
         fields = [
-            "id",
+            "user_id",
             "specialty",
             "experience",
             "city",
-            "country",
+            # "country",
             "status",
             "address",
             "phone",
             "profile_image",
             "amount",
         ]
+
 
 
 class Userserializer(serializers.ModelSerializer):
