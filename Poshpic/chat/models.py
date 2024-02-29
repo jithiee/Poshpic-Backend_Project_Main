@@ -11,7 +11,7 @@ class Message(models.Model):
     username = models.CharField(max_length=255)
     message = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
-    file = models.FileField(upload_to="uploads/", null=True, blank=True)
+    # file = models.FileField(upload_to="uploads/", null=True, blank=True)
 
     class Meta:
         db_table = "chat_message"

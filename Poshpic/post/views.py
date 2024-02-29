@@ -25,7 +25,33 @@ from .pagination import PostLimitOffsetPagination
 
 class Post_PhototgrapherView(APIView):
     permission_classes = [IsAuthenticated]
+    pagination_class = PostLimitOffsetPagination
 
+    def get(self, request, format=None):
+        
+        try:
+            posts = Post.objects.all().order_by('-created_at')
+            paginator = self.pagination_class()
+            result_page = paginator.paginate_queryset(posts, request)
+            serializer = PostSerializer(result_page, many=True)
+            return paginator.get_paginated_response(serializer.data)
+        except ObjectDoesNotExist:
+            return Response({'msg':'No Posts found'} ,status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+           return Response({'msg':str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)   
+       
+
+    # def get(self, request, format=None):
+    #     try:
+    #         posts = Post.objects.all().order_by('-created_at')
+    #         serializer = PostSerializer(posts, many=True)
+    #         return Response(serializer.data)
+    #     except ObjectDoesNotExist:
+    #         return Response({'msg':'No Posts found'} ,status=status.HTTP_400_BAD_REQUEST)
+    #     except Exception as e:
+    #        return Response({'msg':str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    
     def post(self, request, *args, **kwargs):
         
         try:
@@ -46,32 +72,6 @@ class Post_PhototgrapherView(APIView):
         except Exception as e:
             return Response({'msg': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
-    
-    def get(self, request, format=None):
-        try:
-            posts = Post.objects.all().order_by('-created_at')
-            serializer = PostSerializer(posts, many=True)
-            return Response(serializer.data)
-        except ObjectDoesNotExist:
-            return Response({'msg':'No Posts found'} ,status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-           return Response({'msg':str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-       
-    # pagination_class = PostLimitOffsetPagination 
-    # def get(self, request, format=None):
-        
-    #     try:
-    #         posts = Post.objects.all().order_by('-created_at')
-    #         paginator = self.pagination_class()
-    #         result_page = paginator.paginate_queryset(posts, request)
-    #         serializer = PostSerializer(result_page, many=True)
-    #         return paginator.get_paginated_response(serializer.data)
-    #     except ObjectDoesNotExist:
-    #         return Response({'msg':'No Posts found'} ,status=status.HTTP_400_BAD_REQUEST)
-    #     except Exception as e:
-    #        return Response({'msg':str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)   
-    
-   
     def patch(self, request, pk, *args, **kwargs):
         try:
             post = Post.objects.get(pk=pk, user=request.user)
@@ -117,7 +117,6 @@ class Photographer_postApiview(APIView):
             return Response({'msg': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
         
-
 class LikeApiView(APIView):
     permission_classes = [IsAuthenticated]
 
