@@ -1,18 +1,14 @@
 from django.db import models
 from booking.models import BookingPhotographer
-
-
-class Room(models.Model):
-    name = models.CharField(max_length=255, unique=True)
+from account.models import User
 
 
 class Message(models.Model):
     room_name = models.ForeignKey(BookingPhotographer, on_delete=models.CASCADE)
-    username = models.CharField(max_length=255)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
     message = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
-    # file = models.FileField(upload_to="uploads/", null=True, blank=True)
-
+    username =models.CharField(max_length=20)
     class Meta:
         db_table = "chat_message"
         ordering = ("timestamp",)

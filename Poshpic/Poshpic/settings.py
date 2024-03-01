@@ -91,7 +91,8 @@ TEMPLATES = [
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": config('NAME' ,default=''),
+        # "NAME": config('NAME' ,default=''),
+        "NAME": 'poshpicdb',
         "USER":config('USER' ,default='' ),
         "PASSWORD":config('PASSWORD' ,default='' ),
         "HOST": config('HOST' ,default='' ),

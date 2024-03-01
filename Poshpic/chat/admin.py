@@ -1,12 +1,11 @@
 from django.contrib import admin
-from chat.models import Message,Room
+from chat.models import Message
 
 
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
-    list_display = ["username"]
+    list_display = ["user"]
     
-admin.site.register(Room)
 
 
 # from . models import ChatMessage

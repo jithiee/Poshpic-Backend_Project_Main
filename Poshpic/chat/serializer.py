@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Message, Room
+from .models import Message
 from django.contrib.auth import get_user_model
 
 

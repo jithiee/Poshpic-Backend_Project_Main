@@ -38,7 +38,8 @@ class Post_PhototgrapherView(APIView):
         except ObjectDoesNotExist:
             return Response({'msg':'No Posts found'} ,status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-           return Response({'msg':str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)   
+           return Response({'msg':str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)  
+        
        
 
     # def get(self, request, format=None):
@@ -74,14 +75,14 @@ class Post_PhototgrapherView(APIView):
     
     def patch(self, request, pk, *args, **kwargs):
         try:
-            post = Post.objects.get(pk=pk, user=request.user)
+            post = Post.objects.get(pk=pk,)
         except Post.DoesNotExist:
             return Response({"msg": "Post not found"}, status=status.HTTP_404_NOT_FOUND)
 
         serializer = PostSerializer(post, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response({"msg": "Post is updated"}, status=status.HTTP_200_OK)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     
