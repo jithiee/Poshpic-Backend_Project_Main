@@ -276,30 +276,41 @@ class PhtotgrapherApiview(APIView):
         
 
 class PhtotgrapherSearchAPIView(ListAPIView):
-    permission_classes=[IsAuthenticated]
+    # permission_classes=[IsAuthenticated]
     
     serializer_class = PhotogrpherProfileSerializer
+    def get(self, request):
+        query = request.query_params.get('query', '')
+        if not query:
+            return Response({'error': 'Please provide a search query'}, status=status.HTTP_400_BAD_REQUEST)
 
-    def get_queryset(self):
-        username_query = self.request.query_params.get('username', None)
-        Speciality = self.request.query_params.get('specialty' , None)  
-        print(username_query ,'kkk')
-        print(Speciality ,'lllllllllll')
+        photographers = PhotographerProfile.objects.filter(
+            Q(user__username__icontains=query) | Q(specialty__icontains=query)
+        )
 
-        try:
-            if username_query:
-                queryset = PhotographerProfile.objects.filter(
-                    Q(user__username__icontains=username_query) | Q(user__specialty__icontains =Speciality )
-                )
-            else:
-                queryset = PhotographerProfile.objects.all()
-            return queryset
+        serializer = PhotogrpherProfileSerializer(photographers, many=True)
+        return Response(serializer.data)
 
-        except ValidationError as e:
-            return Response({'msg': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    
+    
 
-        except Exception as e:
-            return Response({'msg': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    # def get_queryset(self):
+    #     username_query = self.request.query_params.get('username', None)
+
+    #     try:
+    #         if username_query:
+    #             queryset = PhotographerProfile.objects.filter(
+    #                 Q(user__username__icontains=username_query) 
+    #             )
+    #         else:
+    #             queryset = PhotographerProfile.objects.all()
+    #         return queryset
+
+    #     except ValidationError as e:
+    #         return Response({'msg': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+    #     except Exception as e:
+    #         return Response({'msg': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 
