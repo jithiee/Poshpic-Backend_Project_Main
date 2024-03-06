@@ -17,6 +17,12 @@ class Post(models.Model):
         width_field=None,
         max_length=None,
     )
+    video = models.FileField(
+        upload_to="videos/",
+        null=True,
+        blank=True,
+        max_length=None
+    )
     created_at = models.DateTimeField(default=datetime.now())
     title = models.CharField(max_length=50, null=True, blank=True)
     description = models.TextField(null=True, blank=True)

@@ -7,6 +7,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from .models import BookingPhotographer 
 from datetime import datetime
+from account.models import PhotographerProfile
 
 
 class BookingApiView(APIView):
@@ -29,15 +30,18 @@ class BookingApiView(APIView):
             try:
         
                 booking_date = datetime.strptime(booking_date_str, '%Y-%m-%dT%H:%M')
+             
 
             except ValueError:
                 return Response({'msg': 'Invalid booking date format'}, status=status.HTTP_400_BAD_REQUEST)
 
             if booking_date <= datetime.now():
                 return Response({'msg': 'Booking date must be a future date'}, status=status.HTTP_400_BAD_REQUEST)
+            
 
         serializer = BookingSerializer(data=data)
         if serializer.is_valid():
+        
             serializer.save()
             print(serializer.data,'555555')
             return Response(serializer.data, status=status.HTTP_201_CREATED)

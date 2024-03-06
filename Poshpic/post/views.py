@@ -22,6 +22,8 @@ from django.core.exceptions  import (
 )
 from account.models import User
 from .pagination import PostLimitOffsetPagination
+from adminpanel.models import Payment
+
 
 class Post_PhototgrapherView(APIView):
     permission_classes = [IsAuthenticated]
@@ -56,8 +58,17 @@ class Post_PhototgrapherView(APIView):
     def post(self, request, *args, **kwargs):
         
         try:
+            
             serializer = PostSerializer(data=request.data)
             user = request.user
+            
+            payment = Payment.objects.filter(Photogarpher=user, status=Payment.COMPLETED).first()
+            
+            if not payment:
+                return Response(
+                    {"msg": "User has not completed the payment. Cannot create post."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
 
             if serializer.is_valid():
                 serializer.save(user=user, created_at=timezone.now())
@@ -72,6 +83,7 @@ class Post_PhototgrapherView(APIView):
 
         except Exception as e:
             return Response({'msg': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            
     
     def patch(self, request, pk, *args, **kwargs):
         try:
@@ -103,6 +115,7 @@ class Post_PhototgrapherView(APIView):
             return Response({"msg": "post is deleted"}, status=status.HTTP_200_OK)
         except Post.DoesNotExist:
             return Response({"msg": "erorrr"}, status=status.HTTP_404_NOT_FOUND)
+        
         
 class Photographer_postApiview(APIView):
     def get(self, request):

@@ -18,7 +18,7 @@ class CommentSerializer(serializers.ModelSerializer):
 class PostHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ["id", "user", "image", "created_at", "title", "description"]
+        fields = ["id", "user", "image", "created_at", "title", "description", "video"]
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -30,6 +30,7 @@ class PostSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "image",
+            "video",
             "created_at",
             "title",
             "description",
