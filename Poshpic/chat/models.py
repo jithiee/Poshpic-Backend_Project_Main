@@ -12,6 +12,16 @@ class Message(models.Model):
     class Meta:
         db_table = "chat_message"
         ordering = ("timestamp",)
+        
+    def __str__(self):
+        return f"{self.room_name}"
+    
+        
+   
+   
+            
+        
+        
     
 
 # from account.models import User , Userprofile

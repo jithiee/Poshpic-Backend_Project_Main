@@ -4,7 +4,7 @@ from chat.models import Message
 
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
-    list_display = ["user"]
+    list_display = ["user" , "room_name"]
     
 
 

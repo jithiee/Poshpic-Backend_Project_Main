@@ -29,6 +29,7 @@ from django.core.exceptions import ValidationError
 
 
 
+
 # this function used for jwt token generation
 def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
@@ -106,7 +107,7 @@ class Verify_OTP(APIView):
             return Response({"error": "Invalid data provided"}, status=status.HTTP_400_BAD_REQUEST)
 
 
-    
+  
 class LoginUserView(APIView):
     
     @swagger_auto_schema(
@@ -240,12 +241,9 @@ class UserProfileView(APIView):
     def patch(self, request, *args, **kwargs):
         try:
             userupdate = request.user 
-            print(userupdate,'>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
-            print(request.data)
             serializer = Userserializer(userupdate, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
-                print(serializer.data,'____________________________________________________')
                 return Response(serializer.data, status=status.HTTP_200_OK)
             return Response({"msg": "Invalid data provided"}, status=status.HTTP_404_NOT_FOUND) 
         except User.DoesNotExist:
@@ -291,8 +289,6 @@ class PhtotgrapherSearchAPIView(ListAPIView):
         serializer = PhotogrpherProfileSerializer(photographers, many=True)
         return Response(serializer.data)
 
-    
-    
 
     # def get_queryset(self):
     #     username_query = self.request.query_params.get('username', None)

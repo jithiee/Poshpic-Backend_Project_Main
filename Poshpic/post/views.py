@@ -32,7 +32,8 @@ class Post_PhototgrapherView(APIView):
     def get(self, request, format=None):
         
         try:
-            posts = Post.objects.all().order_by('-created_at')
+            # posts = Post.objects.all().order_by('-created_at')
+            posts = Post.objects.prefetch_related('likes', 'comments').order_by('-created_at') 
             paginator = self.pagination_class()
             result_page = paginator.paginate_queryset(posts, request)
             serializer = PostSerializer(result_page, many=True)
@@ -40,7 +41,7 @@ class Post_PhototgrapherView(APIView):
         except ObjectDoesNotExist:
             return Response({'msg':'No Posts found'} ,status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-           return Response({'msg':str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)  
+            return Response({'msg':str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)  
         
        
 
@@ -118,6 +119,8 @@ class Post_PhototgrapherView(APIView):
         
         
 class Photographer_postApiview(APIView):
+    permission_classes = [IsAuthenticated]
+    
     def get(self, request):
         user = request.user
         try:
@@ -169,6 +172,8 @@ class LikeApiView(APIView):
      
 
 class PostHistoryListView(APIView):
+    permission_classes = [IsAuthenticated]
+    
     def get(self, request, pk=None, *args, **kwargs):
         user = request.user
         if pk is not None:
@@ -245,6 +250,7 @@ class CommentApiView(APIView):
             post = Post.objects.get(id=pk)
           
             comments = Comment.objects.filter(post=post).order_by('-created_at')
+            
 
             serializer = CommentSerializer(comments, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -277,6 +283,8 @@ class CommentApiView(APIView):
 
 
 class RepostApiView(APIView):
+    permission_classes = [IsAuthenticated]
+    
     def post(self, request, pk, *args, **kwargs):
         try:
             post_history = PostHistory.objects.get(pk=pk, user=request.user)
@@ -290,9 +298,7 @@ class RepostApiView(APIView):
 
             serializer = PostSerializer(data=newdata)
             if serializer.is_valid(raise_exception=True):
-                print("iiiiiiiiii")
                 serializer.save(user=request.user)
-
                 post_history.delete()
 
                 return Response(

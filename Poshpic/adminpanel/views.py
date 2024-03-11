@@ -14,7 +14,8 @@ from .models import Payment
 from datetime import datetime
 from django.db.models import Q
 import stripe
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated ,IsAdminUser
+from datetime import timedelta
 
 
 
@@ -75,8 +76,7 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 class AdminPayment(APIView):
     permission_classes = [IsAuthenticated]
-
-  
+    
     def get(self, request):
         try:
             payment = Payment.objects.get(
@@ -122,12 +122,19 @@ class AdminPayment(APIView):
                 cancel_url=cancel_url,
             )
             if checkout_session.id:
+                expiration_date = datetime.now() + timedelta(days=365)
+                
                 Payment.objects.create(
                     Photogarpher=request.user,
                 month=datetime.now().month,
                 year=datetime.now().year,
                 stripe_id =checkout_session.id,
-                amount=2500,total_amount=2500)
+                amount=2500,total_amount=2500,
+                expiration_date=expiration_date
+                
+                
+                
+                )
                         
             return Response({"url": checkout_session.url}, status=status.HTTP_200_OK)
 
@@ -151,6 +158,7 @@ class PaymentSuccessView(APIView):
     
     
 class PhotographerPayment(APIView):
+    permission_classes = [IsAuthenticated ]
     def get(self, request):
         try:
             payment = Payment.objects.all()
