@@ -19,7 +19,6 @@ from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from rest_framework.permissions import IsAuthenticated
-from rest_framework_simplejwt.tokens import RefreshToken
 from .email import sent_otp_vary_email
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi

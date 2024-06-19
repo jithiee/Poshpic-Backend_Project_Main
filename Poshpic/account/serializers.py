@@ -52,7 +52,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         # print(validated_data)  # {'username': 'joy1234', 'email': 'jo1234y@gmail.com', 'is_photographer': True, 'is_user': True, 'password': '123Aa#111', 'confirm_password': '123Aa#111'}
         validated_data.pop(
             "confirm_password", None
-        )  # pop is dict method None is default , confirm_password don't store in database
+        )  # pop is dict method None is default , confirm_password don't want to store in database
 
         user = User.objects.create_user(  # create_user usring for hashing the password
             **validated_data
