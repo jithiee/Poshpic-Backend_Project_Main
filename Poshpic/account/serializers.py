@@ -41,12 +41,12 @@ class RegisterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({'msg':'Invalid password , passwords  are not same '})
         return attrs
 
-    def validate(self, data):
-        password = data.get("password")
-        confirm_password = data.get("confirm_password")
-        if password != confirm_password:
-            raise serializers.ValidationError("Invalid password , passwords  are not same")
-        return data
+    # def validate(self, data):
+    #     password = data.get("password")
+    #     confirm_password = data.get("confirm_password")
+    #     if password != confirm_password:
+    #         raise serializers.ValidationError("Invalid password , passwords  are not same")
+    #     return data
 
     def create(self, validated_data):
         # print(validated_data)  # {'username': 'joy1234', 'email': 'jo1234y@gmail.com', 'is_photographer': True, 'is_user': True, 'password': '123Aa#111', 'confirm_password': '123Aa#111'}
