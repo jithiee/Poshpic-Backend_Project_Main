@@ -5,7 +5,8 @@ from .serializers import (
     ForgotPasswordSerializer,
     Userserializer,
     VerifyAccountSerializer,
-    PhotogrpherProfileSerializer
+    PhotogrpherProfileSerializer,
+    ResentOtpSerializer ,
 )
 from rest_framework.response import Response
 from rest_framework import status
@@ -29,7 +30,8 @@ from django.core.exceptions import ValidationError
 
 
 
-# this function used for jwt token generation
+
+# this function used generating  jwt token 
 def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
 
@@ -104,8 +106,26 @@ class Verify_OTP(APIView):
                 return Response({"error": "Account already verified"},status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({"error": "Invalid data provided"}, status=status.HTTP_400_BAD_REQUEST)
-
-
+        
+class ResntOtp(APIView):
+    permission_class = [AllowAny]
+    
+    def post(self , request , formate = None):
+        serializer = ResentOtpSerializer(data = request.data)
+        if serializer.is_valid():
+             email = serializer.validated_data["email"]
+             try:
+                user = User.objects.get(email = email)
+                if user.is_verified:
+                    return Response({"error": "Account is already verified"}, status=status.HTTP_400_BAD_REQUEST)
+                else:
+                    sent_otp_vary_email(email)
+                    return Response({"message": "OTP has been resent successfully"}, status=status.HTTP_200_OK)
+               
+             except User.DoesNotExist :
+                 return Response( {"error" :"user not found " }, status=status.HTTP_404_NOT_FOUND  )
+        return Response({"error": "Invalid data provided"}, status=status.HTTP_400_BAD_REQUEST)
+             
   
 class LoginUserView(APIView):
     
@@ -253,7 +273,7 @@ class UserProfileView(APIView):
 
 
 class PhtotgrapherApiview(APIView):
-    permission_classes=[IsAuthenticated]
+    # permission_classes=[IsAuthenticated]  uncommet after testing ===============================
     
     @swagger_auto_schema(
         tags=["Profile"],

@@ -60,9 +60,16 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
 
 
+# OTP verification 
 class VerifyAccountSerializer(serializers.Serializer):
     email = serializers.EmailField()
     otp = serializers.CharField()
+
+#  Resent OTP 
+class ResentOtpSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+   
+
 
 
 class LoginSerializer(serializers.Serializer):

@@ -12,6 +12,7 @@ def sent_otp_vary_email(email):
     email_from = settings.EMAIL_HOST
     send_mail(subject, message, email_from, [email])
     
+     # Save OTP to the user model
     user_obj = User.objects.get(email=email)
     user_obj.otp = otp
     user_obj.save()
