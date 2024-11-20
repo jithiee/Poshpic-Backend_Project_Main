@@ -13,7 +13,11 @@ from rest_framework import status
 from django.contrib.auth import authenticate
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
-from .models import User, Userprofile, PhotographerProfile
+from .models import (
+                     User, 
+                     Userprofile,
+                     PhotographerProfile
+                     )
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
@@ -26,6 +30,8 @@ from drf_yasg import openapi
 from rest_framework.generics import ListAPIView
 from django.db.models import Q
 from django.core.exceptions import ValidationError
+from datetime import timedelta
+from django.utils import timezone
 
 
 
@@ -88,7 +94,12 @@ class Verify_OTP(APIView):
                 return Response({"error": "Invalid email or OTP"},status=status.HTTP_400_BAD_REQUEST)
 
             if user.otp != otp:
+                print(user.otp ,'ooooooooooo')
                 return Response({"error": "Incorrect OTP"}, status=status.HTTP_400_BAD_REQUEST)
+            
+            if user.otp_created_at:
+                if user.otp_created_at and timezone.now() > user.otp_created_at + timedelta(minutes=2):
+                    return Response({"error" : "OTP has expired"} ,status=status.HTTP_400_BAD_REQUEST )
 
             if not user.is_verified:
                 user.is_verified = True
@@ -103,10 +114,11 @@ class Verify_OTP(APIView):
                 user.save()
                 return Response({"message": "Account verified"}, status=status.HTTP_200_OK)
             else:
-                return Response({"error": "Account already verified"},status=status.HTTP_400_BAD_REQUEST)
+                return Response({"error": "Account already verified . No action required."},status=status.HTTP_400_BAD_REQUEST)    
         else:
             return Response({"error": "Invalid data provided"}, status=status.HTTP_400_BAD_REQUEST)
         
+          
 class ResntOtp(APIView):
     permission_class = [AllowAny]
     
@@ -230,8 +242,8 @@ class ResetPasswordView(APIView):
             return Response({"detail": "Invalid reset link"}, status=status.HTTP_400_BAD_REQUEST)
         
 
-# @authentication_classes([JWTAuthentication])  #its declire globaliyin setting.py  REST_FRAMEWORK
 class UserProfileView(APIView):
+# @authentication_classes([JWTAuthentication])  #its declire globaliyin setting.py  REST_FRAMEWORK
     permission_classes = [IsAuthenticated]
     
     @swagger_auto_schema(

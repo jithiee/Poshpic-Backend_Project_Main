@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
+
 class User(AbstractUser):
     username = models.CharField(max_length=50, unique=True)
     email = models.EmailField(max_length=254, unique=True)
@@ -10,7 +11,7 @@ class User(AbstractUser):
     is_verified = models.BooleanField(default=False)
     is_user = models.BooleanField(default=False)
     otp = models.CharField(max_length=4, null=True)
-    # otp_expriy =models.CharField(max_length=50)
+    otp_created_at = models.DateTimeField( null= True , blank= True) # Timestamp for OTP creation
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
