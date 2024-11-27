@@ -50,17 +50,19 @@ def get_tokens_for_user(user):
 class RegisterUserView(APIView):
     permissions_classes = [AllowAny]
     
-    @swagger_auto_schema(
-        tags=["User Authentication"],
-        operation_description="Registeration",
-        responses={200: RegisterSerializer, 400: "bad request", 500: "errors"},
-        request_body=RegisterSerializer,  
-    )
-    
     def post(self, request, *args, **kwargs):
         try:
+            email = request.data.get("eamil")
+            exists_username = request.date.get("username")
+            
+            if User.objects.filter(email = email ).exists():
+                return Response ({"error":"Email already exists"})
+            
+            if User.objects.filter(username = exists_username).exists():
+                return Response({"error":"username already exists"})
+           
             serializer = RegisterSerializer(data=request.data)
-
+            
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 sent_otp_vary_email(serializer.data["email"])
@@ -260,14 +262,7 @@ class UserProfileView(APIView):
 
         except Exception as e:
             return Response({"error": f"An error occurred: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR )
-            
-    
-    @swagger_auto_schema(
-        tags=["Profile"],
-        operation_description="userprofile update",
-        responses={200: Userserializer, 400: "bad request", 500: "errors"},
-        request_body=Userserializer,  
-    )
+        
     
     def patch(self, request, *args, **kwargs):
         try:
@@ -285,14 +280,6 @@ class UserProfileView(APIView):
 
 
 class PhtotgrapherApiview(APIView):
-    # permission_classes=[IsAuthenticated]  uncommet after testing ===============================
-    
-    @swagger_auto_schema(
-        tags=["Profile"],
-        operation_description="photographer profile",
-        responses={200: Userserializer, 400: "bad request", 500: "errors"},
-    
-    )
     
     def get(self, request):
         try:
@@ -319,6 +306,11 @@ class PhtotgrapherSearchAPIView(ListAPIView):
 
         serializer = PhotogrpherProfileSerializer(photographers, many=True)
         return Response(serializer.data)
+    
+    
+    
+
+
 
 
     # def get_queryset(self):
