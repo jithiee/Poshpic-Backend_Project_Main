@@ -35,8 +35,6 @@ from django.utils import timezone
 
 
 
-
-
 # this function used generating  jwt token 
 def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)
@@ -52,8 +50,8 @@ class RegisterUserView(APIView):
     
     def post(self, request, *args, **kwargs):
         try:
-            email = request.data.get("eamil")
-            exists_username = request.date.get("username")
+            email = request.data.get("email")
+            exists_username = request.data.get("username")
             
             if User.objects.filter(email = email ).exists():
                 return Response ({"error":"Email already exists"})
@@ -330,16 +328,8 @@ class PhtotgrapherSearchAPIView(ListAPIView):
 
     #     except Exception as e:
     #         return Response({'msg': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
-
-
-
-
-
-
-
-
+    
+   
 
 
 

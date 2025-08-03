@@ -37,6 +37,8 @@ class Userprofile(models.Model):
         null=True,
         blank=True,
     )
+    
+    
 
 
 class PhotographerProfile(models.Model):
