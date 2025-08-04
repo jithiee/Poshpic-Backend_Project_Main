@@ -14,7 +14,7 @@ from .models import Payment
 from datetime import datetime
 from django.db.models import Q
 import stripe
-from rest_framework.permissions import IsAuthenticated ,IsAdminUser
+from rest_framework.permissions import IsAuthenticated 
 from datetime import timedelta
 
 

@@ -11,7 +11,6 @@ class BookingPhotographerAdmin(admin.ModelAdmin):
         "user",
         "photographer",
         "booking_date",
-        # "amount",
         "booking_status",
         "is_completed",
     ]

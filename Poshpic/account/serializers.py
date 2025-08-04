@@ -22,33 +22,16 @@ class RegisterSerializer(serializers.ModelSerializer):
             "otp",
         ]
 
-    # def validate_password(self,value):
-    #     if not re.search(r'\d',value):
-    #         raise serializers.ValidationError('Password must be one digit')
-    #     if not re.search(r'[A-Z]',value):
-    #         raise serializers.ValidationError('Password must be one uppercase letter')
-    #     if not re.search(r'[a-z]',value):
-    #         raise serializers.ValidationError('Password must be one lowercase letter')
-    #     if not re.search(r'[!@#$%^&*(),.?":{}|<>]',value):
-    #         raise serializers.ValidationError('Password must contain special character')
-    #     if len(value)< 8:
-    #         raise serializers.ValidationError('Password length must be 8 character')
-    #     return value
+  
 
     def validate(self, attrs):
         if attrs['password'] != attrs ['confirm_password']:
             raise serializers.ValidationError({'msg':'Invalid password , passwords  are not same '})
         return attrs
 
-    # def validate(self, data):
-    #     password = data.get("password")
-    #     confirm_password = data.get("confirm_password")
-    #     if password != confirm_password:
-    #         raise serializers.ValidationError("Invalid password , passwords  are not same")
-    #     return data
+
 
     def create(self, validated_data):
-        # print(validated_data)  # {'username': 'joy1234', 'email': 'jo1234y@gmail.com', 'is_photographer': True, 'is_user': True, 'password': '123Aa#111', 'confirm_password': '123Aa#111'}
         validated_data.pop(
             "confirm_password", None
         )  # pop is dict method None is default , confirm_password don't want to store in database
@@ -98,7 +81,6 @@ class PhotogrpherProfileSerializer(serializers.ModelSerializer):
             "specialty",
             "experience",
             "city",
-            # "country",
             "status",
             "address",
             "phone",
