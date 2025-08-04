@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from .models import User, Userprofile, PhotographerProfile
-import re  # regular expression module
-
+import re  
 
 
 class RegisterSerializer(serializers.ModelSerializer):
